@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../api"; // ✅ import your centralized Axios instance
+import api from "../api/api"
 
 function Signup() {
   const [userType, setUserType] = useState("");

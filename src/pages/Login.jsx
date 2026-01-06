@@ -1,44 +1,30 @@
-import React, { useState } from "react";
-import '../api/api'
+import { useState } from "react";
+import {useAuth} from '../auth/AuthContext';
+
 
 function Login() {
+  const { login, loading } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
-
     try {
-      // ✅ Use api.js instead of fetch
-      const res = await api.post("/accuattend/login", {
-        username,
-        password,
-      });
-
-      // Assuming your PHP returns { token: "...", user: {...} }
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      alert("Login successful!");
-      // Redirect to dashboard or home
+      await login(username, password);
+      
+      // Redirect to dashboard
       window.location.href = "/dashboard";
-
     } catch (err) {
       console.error(err);
-
-      // Axios error handling
-      if (err.response) {
-        setError(err.response.data.error || "Login failed");
+      if (err.response?.data?.message) {
+        
+        setError(err.response.data.message);
       } else {
-        setError("Something went wrong");
+        setError("Login failed. Please try again.");
       }
     }
-
-    setLoading(false);
   };
 
   return (
