@@ -33,9 +33,7 @@ function Login() {
         <div className="card shadow-lg p-4">
           <div className="card-body">
             <h3 className="text-center mb-4 fw-bold">Login</h3>
-
-            {error && <div className="alert alert-danger">{error}</div>}
-
+            {error && <div className="alert alert-danger">{error}</div>}            
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="form-label">Username</label>
