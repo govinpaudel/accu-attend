@@ -23,11 +23,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await api.post("/login", { username, password });
-      const { access_token, refresh_token, id, role, org_id } = res.data.data;
+      console.log(res.data);
+      const {id, role, org_id } = res.data.data;
 
       // Store tokens in localStorage
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem("access_token", res.data.access_token);
+      localStorage.setItem("refresh_token", res.data.refresh_token);
 
       // Save user info
       const userInfo = { id, role, org_id };

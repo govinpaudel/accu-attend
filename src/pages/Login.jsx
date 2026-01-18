@@ -1,25 +1,25 @@
 import { useState } from "react";
-import {useAuth} from '../auth/AuthContext';
-
+import { useAuth } from '../auth/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { login, loading } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
       await login(username, password);
-      
+
       // Redirect to dashboard
-      window.location.href = "/dashboard";
+      navigate('/dashboard')
     } catch (err) {
       console.error(err);
       if (err.response?.data?.message) {
-        
         setError(err.response.data.message);
       } else {
         setError("Login failed. Please try again.");
@@ -33,7 +33,7 @@ function Login() {
         <div className="card shadow-lg p-4">
           <div className="card-body">
             <h3 className="text-center mb-4 fw-bold">Login</h3>
-            {error && <div className="alert alert-danger">{error}</div>}            
+            {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="form-label">Username</label>
@@ -67,7 +67,6 @@ function Login() {
                 </button>
               </div>
             </form>
-
             <p className="text-center mt-3">
               Don’t have an account? <a href="/signup">Sign Up</a>
             </p>
@@ -77,5 +76,5 @@ function Login() {
     </div>
   );
 }
-
 export default Login;
+
