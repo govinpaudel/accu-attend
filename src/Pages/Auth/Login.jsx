@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {useAuth} from "../../Context/AuthContext"
+import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -13,10 +13,21 @@ function Login() {
     e.preventDefault();
     setError("");
     try {
+      // Perform login
       await login(username, password);
 
-      // Redirect to dashboard
-      navigate('/dashboard')
+      // Get user info from localStorage (or you could get from context)
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      // Role-based routing
+      const roleRoutes = {
+        user: "/user",
+        admin: "/admin",
+        "super-admin": "/admin", // super-admin shares admin layout
+      };
+
+      const path = roleRoutes[user.role] || "/"; // fallback to home
+      navigate(path, { replace: true }); // redirect
     } catch (err) {
       console.error(err);
       if (err.response?.data?.message) {
@@ -76,5 +87,5 @@ function Login() {
     </div>
   );
 }
-export default Login;
 
+export default Login;
