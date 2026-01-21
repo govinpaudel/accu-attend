@@ -1,9 +1,9 @@
 import React from 'react'
 
-function AdminUsers() {
+function LocAdminUsers() {
   return (
     <div>AdminUsers</div>
   )
 }
 
-export default AdminUsers
+export default LocAdminUsers;

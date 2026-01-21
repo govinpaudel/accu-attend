@@ -5,27 +5,38 @@ import { AuthProvider } from "./Context/AuthContext";
 import Unauthorized from "./Pages/Auth/Unauthorized";
 
 // Layouts
-import AdminLayout from "./layouts/AdminLayout";
-import UserLayout from "./layouts/UserLayout";
 import SuperAdminLayout from "./Pages/SuperAdmin/SuperAdminLayout";
+import OrgAdminLayout from "./layouts/OrgAdminLayout";
+import LocAdminLayout from "./layouts/LocAdminLayout";
+import UserLayout from "./layouts/UserLayout";
+
 
 //Super Admin pages
 import SuperAdminDashboard from "./Pages/SuperAdmin/SuperAdminDashboard";
-import AdminUsers from "./Pages/SuperAdmin/AdminUsers";
+import OrgAdminUsers from "./Pages/SuperAdmin/OrgAdminUsers";
+import Organizations from "./Pages/SuperAdmin/Organizations";
 
-//Admin pages
-import AdminDashboard from "./Pages/Admin/AdminDashboard";
-import Users from "./Pages/Admin/Users";
-import Locations from "./Pages/Admin/Locations";
-import Rosters from "./Pages/Admin/Rosters";
+//Organization Admin pages
+import Locations from "./Pages/OrgAdmin/Locations";
+import LocAdminUsers from "./Pages/OrgAdmin/LocAdminUsers";
+
+
+//Location Admin pages
+import Rosters from "./Pages/LocAdmin/Rosters";
+import LocProfile from "./Pages/LocAdmin/LocProfile";
+import Users from "./Pages/LocAdmin/Users"
+
+
 
 //user pages
 import UserDashboard from "./Pages/User/UserDashboard";
 import Profile from "./Pages/User/Profile";
 import UserReport from "./Pages/User/UserReport";
-import Organizations from "./Pages/SuperAdmin/Organizations";
+
+//common pages
 import ChangePassword from "./Pages/User/ChangePassword";
 import ProtectedRoute from "./Pages/Routes/ProtectedRoute";
+import LocAdminDashboard from "./Pages/LocAdmin/LocAdminDashboard";
 
 
 export default function App() {
@@ -49,21 +60,22 @@ export default function App() {
             }
           >
             <Route index element={<SuperAdminDashboard />} />
-            <Route path="users" element={<AdminUsers />} />
+            <Route path="users" element={<OrgAdminUsers />} />            
             <Route path="organizations" element={<Organizations />} />
+             <Route path="changepassword" element={<ChangePassword />} />
           </Route>
           {/* Admin Routes */}
           <Route
-            path="/admin/*"
+            path="/locadmin/*"
             element={
-              <ProtectedRoute allowedRoles={["admin"]}>
-                <AdminLayout />
+              <ProtectedRoute allowedRoles={["locadmin"]}>
+                <LocAdminLayout />
               </ProtectedRoute>
             }
           >
-            <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="locations" element={<Locations />} />
+            <Route index element={<LocAdminDashboard />} />
+            <Route path="locprofile" element={<LocProfile />} />            
+            <Route path="users" element={<Users />} />            
             <Route path="Rosters" element={<Rosters />} />
             <Route path="changepassword" element={<ChangePassword />} />
           </Route>

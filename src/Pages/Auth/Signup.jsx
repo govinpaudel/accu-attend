@@ -2,14 +2,33 @@ import React, { useState } from "react";
 import api from "../../api/api";
 
 function Signup() {
-  const [userType, setUserType] = useState("");
-  const [orgName, setOrgName] = useState("");
-  const [locationName, setLocationName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const defaultData = {
+    role_id: 0,
+    org_id: 0,
+    loc_id: 0,
+    username: "",
+    password: ""
+  }
+  const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const loadData=()=>{
+
+  }
+  
+  
+  const handleChange = (e) => {
+    console.log(e.target.name, ' : ', e.target.value)
+    setData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+    console.log(data);
+
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,13 +37,7 @@ function Signup() {
     setSuccess("");
 
     try {
-      const res = await api.post("/accuattend/signup", {
-        user_type: userType,
-        org_name: orgName,
-        location_name: locationName,
-        username,
-        password,
-      });
+      const res = await api.post("/signup", data);
 
       setSuccess(res.data.message || "Signup successful! Please login.");
       // Optional: redirect after 2 seconds
@@ -60,40 +73,42 @@ function Signup() {
                 <label className="form-label">Signup As</label>
                 <select
                   className="form-select"
-                  value={userType}
-                  onChange={(e) => setUserType(e.target.value)}
+                  name="role_id"
+                  value={data.role_id}
+                  onChange={handleChange}
                   required
                 >
-                  <option value="">Select Type</option>
-                  <option value="organization">Organization</option>
-                  <option value="location">Location / Store</option>
-                  <option value="user">User</option>
+                  <option value={0}>Select Type</option>
+                  <option value={2}>org-admin</option>
+                  <option value={3}>loc-admin</option>
+                  <option value={4}>loc-user</option>
                 </select>
               </div>
 
               {/* Organization Name */}
-              {userType === "organization" && (
+              {data.role_id === 2 && (
                 <div className="mb-3">
                   <label className="form-label">Organization Name</label>
                   <input
                     type="text"
                     className="form-control"
-                    value={orgName}
-                    onChange={(e) => setOrgName(e.target.value)}
+                    value={data.org_id}
+                    onChange={handleChange}
                     required
                   />
                 </div>
               )}
 
               {/* Location Name */}
-              {userType === "location" && (
+              {data.role_id === "3" && (
                 <div className="mb-3">
-                  <label className="form-label">Location / Store Name</label>
+                  <label className="form-label">Location Name</label>
                   <input
                     type="text"
                     className="form-control"
-                    value={locationName}
-                    onChange={(e) => setLocationName(e.target.value)}
+                    name="loc_id"
+                    value={data.loc_id}
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -105,8 +120,9 @@ function Signup() {
                 <input
                   type="text"
                   className="form-control"
+                  name="username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -117,8 +133,9 @@ function Signup() {
                 <input
                   type="password"
                   className="form-control"
+                  name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleChange}
                   required
                 />
               </div>

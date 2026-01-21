@@ -1,9 +1,9 @@
 import React from 'react'
 
-function AdminDashboard() {
+function LocAdminDashboard() {
   return (
     <div>AdminDashboard</div>
   )
 }
 
-export default AdminDashboard
+export default LocAdminDashboard
