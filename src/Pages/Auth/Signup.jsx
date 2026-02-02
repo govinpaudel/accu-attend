@@ -14,8 +14,7 @@ function Signup() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const userType = [
-   
+  const userType = [   
     { id: 2, name: "org-admin" },
     { id: 3, name: "loc-admin" },
     { id: 4, name: "loc-user" }]
