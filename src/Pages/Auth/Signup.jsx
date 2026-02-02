@@ -4,8 +4,8 @@ import api from "../../api/api";
 function Signup() {
   const defaultData = {
     role_id: 0,
-    org_id: 0,
-    loc_id: 0,
+    org_id: "",
+    loc_id: "",
     username: "",
     password: ""
   }
@@ -14,20 +14,22 @@ function Signup() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const loadData=()=>{
+  const userType = [
+   
+    { id: 2, name: "org-admin" },
+    { id: 3, name: "loc-admin" },
+    { id: 4, name: "loc-user" }]
 
-  }
-  
-  
+
+
   const handleChange = (e) => {
-    console.log(e.target.name, ' : ', e.target.value)
-    setData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-    console.log(data);
+  const { name, value } = e.target;
 
-  }
+  setData(prev => ({
+    ...prev,
+    [name]: name === "role_id" ? Number(value) : value
+  }));
+};
 
 
   const handleSubmit = async (e) => {
@@ -79,17 +81,18 @@ function Signup() {
                   required
                 >
                   <option value={0}>Select Type</option>
-                  <option value={2}>org-admin</option>
-                  <option value={3}>loc-admin</option>
-                  <option value={4}>loc-user</option>
+                  {userType.map(item=>{
+                    return <option value={item.id} key={item.id}>{item.name}</option> 
+                  })}
                 </select>
               </div>
 
               {/* Organization Name */}
-              {data.role_id === 2 && (
+              {(data.role_id === 2 || data.role_id === 3 || data.role_id === 4) && (
                 <div className="mb-3">
                   <label className="form-label">Organization Name</label>
                   <input
+                  name="org_id"
                     type="text"
                     className="form-control"
                     value={data.org_id}
@@ -100,7 +103,7 @@ function Signup() {
               )}
 
               {/* Location Name */}
-              {data.role_id === "3" && (
+              {(data.role_id === 3||data.role_id === 4) && (
                 <div className="mb-3">
                   <label className="form-label">Location Name</label>
                   <input
@@ -121,7 +124,7 @@ function Signup() {
                   type="text"
                   className="form-control"
                   name="username"
-                  value={username}
+                  value={data.username}
                   onChange={handleChange}
                   required
                 />
@@ -134,7 +137,7 @@ function Signup() {
                   type="password"
                   className="form-control"
                   name="password"
-                  value={password}
+                  value={data.password}
                   onChange={handleChange}
                   required
                 />
